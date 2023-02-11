@@ -1,0 +1,72 @@
+labels = "Positive", "Negative" , "Neutral"
+colors = sns.color_palette("bright")[5:8]
+sizes = [df.sentiment[df["sentiment"]=="positive"].count(), df.sentiment[df["sentiment"]=="negative"].count(),df.sentiment[df["sentiment"]=="neutral"].count()]
+explode = (0, 0.1,0)
+fig1, ax1 = plt.subplots(figsize=(8, 6))
+ax1.pie(sizes, labels=labels, autopct="%1.1f%%",
+  startangle=200,colors = colors,explode=explode,wedgeprops={'linewidth': 3.0, 'edgecolor': 'white'},
+       textprops={'size': 'x-large'})
+ax1.axis("equal")
+plt.title("Proportion of Positive , Negative and Neutral Sentiments", size = 15)
+plt.savefig("pie_chart.png")
+plt.show()
+
+#top 10 frequent words in tweets
+freq_dist = FreqDist(df["text_preprocessed"])
+print(freq_dist.most_common(10))
+
+#combining all the sentences into a single single sentence
+all_words = " ".join([sentence for sentence in df["text_preprocessed"]])
+#wordcloud
+wordcloud = WordCloud(width = 800 , height = 500,random_state = 42 ,max_font_size = 100).generate(all_words)
+#plotting graph
+plt.figure(figsize = (15,8))
+plt.imshow(wordcloud , interpolation = "bilinear")
+plt.axis("off")
+plt.savefig("all_words.png")
+plt.show()
+
+#top 10 frequent words in positive tweets
+freq_dist_pos = FreqDist((df["text_preprocessed"][df["sentiment"] == "positive"]))
+print(freq_dist_pos.most_common(10))
+
+#frequent words visualization for positive words
+all_words_positive = " ".join([sentence for sentence in df["text_preprocessed"][df["sentiment"]== "positive"]])
+#wordcloud
+wordcloud_positive = WordCloud(width = 800 , height = 500,random_state = 42 ,max_font_size = 100).generate(all_words_positive)
+#plotting graph
+plt.figure(figsize = (15,8))
+plt.imshow(wordcloud_positive , interpolation = "bilinear")
+plt.axis("off")
+plt.savefig("Pos_words.png")
+plt.show()
+
+#top 10 frequent words in negative tweets
+freq_dist_negative = FreqDist((df["text_preprocessed"][df["sentiment"] == "negative"]))
+print(freq_dist_negative.most_common(10))
+
+#frequent words visualization for negative words
+all_words_negative = " ".join([sentence for sentence in df["text_preprocessed"][df["sentiment"]== "negative"]])
+#wordcloud
+wordcloud_negative = WordCloud(width = 800 , height = 500,random_state = 42 ,max_font_size = 100).generate(all_words_negative)
+#plotting graph
+plt.figure(figsize = (15,8))
+plt.imshow(wordcloud_negative , interpolation = "bilinear")
+plt.axis("off")
+plt.savefig("neg_words.png")
+plt.show()
+
+#top 10 frequent words in neutral tweets
+freq_dist_neutral = FreqDist((df["text_preprocessed"][df["sentiment"] == "neutral"]))
+print(freq_dist_neutral.most_common(10))
+
+#frequent words visualization for neutral words
+all_words_neutral = " ".join([sentence for sentence in df["text_preprocessed"][df["sentiment"]== "neutral"]])
+#wordcloud
+wordcloud_neutral = WordCloud(width = 800 , height = 500,random_state = 42 ,max_font_size = 100).generate(all_words_neutral)
+#plotting graph
+plt.figure(figsize = (15,8))
+plt.imshow(wordcloud_neutral , interpolation = "bilinear")
+plt.axis("off")
+plt.savefig("neutral_words.png")
+plt.show()
